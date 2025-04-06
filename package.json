@@ -1,0 +1,27 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^4.1.3"
+  },
+  "name": "kartweb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/augustinus2000/kartweb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/augustinus2000/kartweb/issues"
+  },
+  "homepage": "https://github.com/augustinus2000/kartweb#readme",
+  "description": ""
+}
