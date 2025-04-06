@@ -1,0 +1,4 @@
+web: bin/rails server
+css: bin/tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --watch
+
+css: bin/rails tailwindcss:watch

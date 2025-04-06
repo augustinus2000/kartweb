@@ -1,0 +1,28 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-10">
+  <!-- 로고 -->
+  <%= image_tag 'cart-5-svgrepo-com.svg', alt: '따르미 로고', class: 'w-100 h-100 mb-6 shadow-md rounded-full' %>
+
+  <!-- 타이틀 -->
+  <h1 class="text-3xl font-semibold text-gray-800 mb-8 tracking-tight">
+    스마트 쇼핑카트 따르미
+  </h1>
+
+  <!-- 알림 메시지 -->
+  <% if flash[:notice] %>
+    <p class="text-green-600 font-medium mb-4 text-center"><%= flash[:notice] %></p>
+  <% elsif flash[:alert] %>
+    <p class="text-red-600 font-medium mb-4 text-center"><%= flash[:alert] %></p>
+  <% end %>
+
+  <!-- 버튼 그룹 -->
+  <div class="w-full max-w-xs space-y-4">
+    <%= button_to "🟢 카트 시작", start_cart_path, method: :post,
+        class: "w-full bg-blue-600 hover:bg-blue-700 text-white text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-all duration-200" %>
+
+    <%= button_to "🔴 카트 정지", stop_cart_path, method: :post,
+        class: "w-full bg-gray-300 hover:bg-gray-400 text-gray-800 text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-all duration-200" %>
+
+    <%= link_to "🛒 장바구니 보기", cart_path,
+        class: "block w-full text-center bg-blue-500 hover:bg-blue-600 text-white text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-all duration-200" %>
+  </div>
+</div>
