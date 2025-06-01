@@ -1,0 +1,49 @@
+<div class="max-w-3xl mx-auto mt-16 px-6">
+  <h2 class="text-3xl font-semibold mb-8 text-center flex items-center justify-center">
+    <i class="fas fa-shopping-cart mr-2"></i> 현재 장바구니
+  </h2>
+
+  <div class="overflow-x-auto mb-8">
+    <table class="w-full text-center border border-gray-300 rounded-lg shadow-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="py-4 px-6 border">이미지</th>
+          <th class="py-4 px-6 border">상품명</th>
+          <th class="py-4 px-6 border">수량</th>
+          <th class="py-4 px-6 border">가격</th>
+          <th class="py-4 px-6 border">총합</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cart_items.each_with_index do |item, index| %>
+          <tr>
+            <td class="py-3 px-4 border">
+              <%= image_tag item["image"], class: "w-16 h-16 object-cover mx-auto" %>
+            </td>
+            <td class="py-3 px-4 border"><%= item["name"] %></td>
+            <td class="py-3 px-4 border">
+              <div class="flex justify-center items-center gap-2">
+                <%= button_to "-", cart_decrement_path(index), method: :post, class: "px-3 py-1 bg-gray-200 rounded" %>
+                <%= item["quantity"] %>
+                <%= button_to "+", cart_increment_path(index), method: :post, class: "px-3 py-1 bg-gray-200 rounded" %>
+              </div>
+            </td>
+            <td class="py-3 px-4 border"><%= number_to_currency(item["price"], unit: "₩", precision: 0, delimiter: ",") %></td>
+            <td class="py-3 px-4 border"><%= number_to_currency(item["price"] * item["quantity"], unit: "₩", precision: 0, delimiter: ",") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex justify-between items-center mt-8">
+    <h3 class="text-xl font-semibold">
+      총 가격: <%= number_to_currency(@total_price, unit: "₩", precision: 0, delimiter: ",") %>
+    </h3>
+    <%= button_to "결제하기", pay_cart_path, method: :post, data: { turbo: false }, class: "bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg" %>
+  </div>
+
+  <div class="mt-6 text-center">
+    <%= button_to "테스트 상품 추가", add_dummy_item_path, method: :post, class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded" %>
+  </div>
+</div>

@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
-  root 'pages#home'
-
-  post '/start_cart', to: 'carts#start', as: 'start_cart'
-  post '/stop_cart', to: 'carts#stop', as: 'stop_cart'
-  get '/cart', to: 'carts#show', as: 'cart'
-  post '/cart/add_dummy', to: 'carts#add_dummy', as: 'add_dummy_item'
-  match '/cart/pay', to: 'carts#pay', via: [:get, :post], as: 'pay_cart'
-
-  # 👉 수량 증가/감소 라우트 추가
-  post '/cart/increment/:id', to: 'carts#increment', as: 'cart_increment'
-  post '/cart/decrement/:id', to: 'carts#decrement', as: 'cart_decrement'
+  root "home#index"
+  
+  get "cart", to: "carts#index", as: "cart_index"
+  post "cart/start", to: "carts#start_cart", as: "cart_start"
+  post "cart/stop", to: "carts#stop", as: "cart_stop"
+  post "cart/yolo_detect", to: "carts#yolo_detect", as: "cart_yolo_detect"
+  get "cart/:cart_uuid", to: "carts#show", as: "cart"
+  post "cart/:cart_uuid/increment/:index", to: "carts#increment", as: "cart_increment"
+  post "cart/:cart_uuid/decrement/:index", to: "carts#decrement", as: "cart_decrement"
+  post "cart/:cart_uuid/pay", to: "carts#pay", as: "cart_pay"
+  get "cart_complete", to: "carts#complete"
 end

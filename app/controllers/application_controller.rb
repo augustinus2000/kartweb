@@ -1,4 +1,15 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  before_action :set_cart
+
+  private
+
+  def set_cart
+    session[:cart_uuid] ||= SecureRandom.uuid
+    @current_cart = Cart.find_or_create_by(uuid: session[:cart_uuid])
+  end
+
+  def cart_running?
+    `ps aux | grep '[s]ort_coral_tpu.py'`.present?
+  end
+  
 end

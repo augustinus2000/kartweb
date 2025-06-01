@@ -16,13 +16,15 @@
 
   <!-- 버튼 그룹 -->
   <div class="w-full max-w-xs space-y-4">
-    <%= button_to "🟢 카트 시작", start_cart_path, method: :post,
+    <%= button_to "🟢 카트 시작", cart_start_path, method: :post,
         class: "w-full bg-blue-600 hover:bg-blue-700 text-white text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-all duration-200" %>
 
-    <%= button_to "🔴 카트 정지", stop_cart_path, method: :post,
+    <%= button_to "🔴 카트 종료", cart_stop_path, method: :post,
         class: "w-full bg-gray-300 hover:bg-gray-400 text-gray-800 text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-all duration-200" %>
 
-    <%= link_to "🛒 장바구니 보기", cart_path,
-        class: "block w-full text-center bg-blue-500 hover:bg-blue-600 text-white text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-all duration-200" %>
+    <% if CurrentCart.first %>
+      <%= link_to "현재 장바구니 보기", cart_path(CurrentCart.first.cart_uuid),
+          class: "block w-full text-center bg-blue-500 hover:bg-blue-600 text-white text-xl font-bold py-4 px-6 rounded-xl shadow-lg transition-all duration-200" %>
+    <% end %>
   </div>
 </div>
