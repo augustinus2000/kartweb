@@ -10,30 +10,46 @@ class CartsController < ApplicationController
 
   def start_cart
     return redirect_to root_path, alert: "이미 실행 중입니다." if cart_running?
-  
+
     new_uuid = SecureRandom.uuid
     Cart.create!(uuid: new_uuid)
     CurrentCart.delete_all
     CurrentCart.create!(cart_uuid: new_uuid)
-  
-    python_path = "/home/kart/miniforge3/envs/coral/bin/python3.8"
-    script_path = "/home/kart/yolo_test/sort_coral_tpu.py"
-    cmd = "#{python_path} #{script_path} #{new_uuid}"
-  
+
+    python_path = ENV.fetch(
+      "CART_PYTHON_PATH",
+      "/home/kart/miniforge3/envs/coral/bin/python3.8"
+    )
+
+    script_path = ENV.fetch(
+      "CART_DETECTOR_SCRIPT",
+      "/home/kart/yolo_test/sort_coral_tpu.py"
+    )
+
+    log_path = ENV.fetch(
+      "CART_LOG_PATH",
+      "/home/kart/cart_log.txt"
+    )
+
+    error_log_path = ENV.fetch(
+      "CART_ERROR_LOG_PATH",
+      "/home/kart/cart_err.txt"
+    )
+
+    cmd = [python_path, script_path, new_uuid]
+
     begin
-      pid = spawn(cmd, out: "/home/kart/cart_log.txt", err: "/home/kart/cart_err.txt")
+      pid = spawn(*cmd, out: log_path, err: error_log_path)
       File.write(PID_FILE, pid)
-  
-      # 일단 spawn이 성공했으면 성공으로 간주
+
       flash[:notice] = "🟢 카트가 시작되었습니다."
     rescue => e
       flash[:alert] = "❌ 카트 시작에 실패했습니다: #{e.message}"
     end
-  
+
     redirect_to root_path
   end
   
-
   def stop
     if File.exist?(PID_FILE)
       pid = File.read(PID_FILE).to_i
